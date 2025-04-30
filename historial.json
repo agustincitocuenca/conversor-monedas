@@ -1,0 +1,32 @@
+[
+    {
+        "de": "USD",
+        "a": "ARS",
+        "monto": 152489.0,
+        "resultado": 134190320.0
+    },
+    {
+        "de": "ARS",
+        "a": "USD",
+        "monto": 1000000.0,
+        "resultado": 1100.0
+    },
+    {
+        "de": "USD",
+        "a": "BRL",
+        "monto": 1100.0,
+        "resultado": 5610.0
+    },
+    {
+        "de": "BRL",
+        "a": "EUR",
+        "monto": 5610.0,
+        "resultado": 1009.8
+    },
+    {
+        "de": "EUR",
+        "a": "ARS",
+        "monto": 1009.8,
+        "resultado": 959310.0
+    }
+]
