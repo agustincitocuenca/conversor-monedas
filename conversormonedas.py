@@ -1,6 +1,6 @@
-import json
+import json  # Módulo para trabajar con archivos JSON
 
-# Tasas fijas de conversión
+# Tasas fijas de conversión entre monedas
 conversion_rates = {
     'USD': {'EUR': 0.92, 'ARS': 880.00, 'BRL': 5.10},
     'EUR': {'USD': 1.09, 'ARS': 950.00, 'BRL': 5.50},
@@ -8,11 +8,14 @@ conversion_rates = {
     'BRL': {'USD': 0.20, 'EUR': 0.18, 'ARS': 172.00},
 }
 
+# Lista de monedas disponibles
 monedas_disponibles = list(conversion_rates.keys())
 
+# Valida si la moneda ingresada es válida
 def validar_moneda(moneda):
     return moneda in monedas_disponibles
 
+# Valida si el monto ingresado es un número positivo
 def validar_monto(monto_str):
     try:
         monto = float(monto_str)
@@ -20,14 +23,16 @@ def validar_monto(monto_str):
     except ValueError:
         return None
 
+# Realiza la conversión entre dos monedas
 def convertir(moneda_origen, moneda_destino, monto):
     if moneda_origen == moneda_destino:
-        return monto
+        return monto  # Si ambas monedas son iguales, no se convierte
     tasa = conversion_rates.get(moneda_origen, {}).get(moneda_destino)
     if tasa is None:
-        raise ValueError("Conversión no soportada.")
+        raise ValueError("Conversión no soportada.")  # Si no hay tasa definida
     return monto * tasa
 
+# Guarda cada conversión en un archivo JSON llamado historial.json
 def guardar_en_historial(origen, destino, monto, resultado):
     conversion = {
         'de': origen,
@@ -35,17 +40,22 @@ def guardar_en_historial(origen, destino, monto, resultado):
         'monto': monto,
         'resultado': resultado
     }
+
+    # Intenta leer el historial existente, o crea una lista vacía si no hay archivo
     try:
         with open('historial.json', 'r') as f:
             historial = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         historial = []
 
+    # Agrega la nueva conversión al historial
     historial.append(conversion)
 
+    # Guarda el historial actualizado en el archivo
     with open('historial.json', 'w') as f:
         json.dump(historial, f, indent=4)
 
+# Muestra por pantalla todas las conversiones almacenadas
 def mostrar_historial():
     try:
         with open('historial.json', 'r') as f:
@@ -61,6 +71,7 @@ def mostrar_historial():
     except json.JSONDecodeError:
         print("Error al leer el historial.")
 
+# Menú principal del programa
 def menu():
     while True:
         print("\n--- Conversor de Monedas ---")
@@ -102,6 +113,6 @@ def menu():
         else:
             print("Opción inválida.")
 
+# Punto de entrada del programa
 if __name__ == "__main__":
     menu()
-      
