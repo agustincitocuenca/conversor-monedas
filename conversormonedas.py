@@ -27,3 +27,36 @@ def convertir(moneda_origen, moneda_destino, monto):
     if tasa is None:
         raise ValueError("Conversión no soportada.")
     return monto * tasa
+
+def guardar_en_historial(origen, destino, monto, resultado):
+    conversion = {
+        'de': origen,
+        'a': destino,
+        'monto': monto,
+        'resultado': resultado
+    }
+    try:
+        with open('historial.json', 'r') as f:
+            historial = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        historial = []
+
+    historial.append(conversion)
+
+    with open('historial.json', 'w') as f:
+        json.dump(historial, f, indent=4)
+
+def mostrar_historial():
+    try:
+        with open('historial.json', 'r') as f:
+            historial = json.load(f)
+            if not historial:
+                print("No hay conversiones registradas.")
+                return
+            print("\nHistorial de conversiones:")
+            for item in historial:
+                print(f"{item['monto']} {item['de']} → {item['resultado']:.2f} {item['a']}")
+    except FileNotFoundError:
+        print("El archivo de historial no existe.")
+    except json.JSONDecodeError:
+        print("Error al leer el historial.")
