@@ -8,6 +8,7 @@ conversion_rates = {
     'BRL': {'USD': 0.20, 'EUR': 0.18, 'ARS': 172.00},
 }
 
+
 # Lista de monedas disponibles
 monedas_disponibles = list(conversion_rates.keys())
 
