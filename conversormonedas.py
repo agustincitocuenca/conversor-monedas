@@ -60,3 +60,48 @@ def mostrar_historial():
         print("El archivo de historial no existe.")
     except json.JSONDecodeError:
         print("Error al leer el historial.")
+
+def menu():
+    while True:
+        print("\n--- Conversor de Monedas ---")
+        print("1. Convertir moneda")
+        print("2. Ver historial")
+        print("3. Salir")
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            moneda_origen = input(f"Ingrese la moneda origen ({', '.join(monedas_disponibles)}): ").upper()
+            if not validar_moneda(moneda_origen):
+                print("Moneda origen inválida.")
+                continue
+
+            moneda_destino = input(f"Ingrese la moneda destino ({', '.join(monedas_disponibles)}): ").upper()
+            if not validar_moneda(moneda_destino):
+                print("Moneda destino inválida.")
+                continue
+
+            monto_str = input("Ingrese el monto a convertir: ")
+            monto = validar_monto(monto_str)
+            if monto is None:
+                print("Monto inválido.")
+                continue
+
+            try:
+                resultado = convertir(moneda_origen, moneda_destino, monto)
+                print(f"Resultado: {monto} {moneda_origen} → {resultado:.2f} {moneda_destino}")
+                guardar_en_historial(moneda_origen, moneda_destino, monto, resultado)
+            except ValueError as e:
+                print(str(e))
+
+        elif opcion == "2":
+            mostrar_historial()
+
+        elif opcion == "3":
+            print("¡Hasta luego!")
+            break
+        else:
+            print("Opción inválida.")
+
+if __name__ == "__main__":
+    menu()
+      
